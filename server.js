@@ -15,11 +15,29 @@ app.use(morgan());
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
+// parse data
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
   response.sendFile(__dirname + '/views/index.html');
 });
+
+// post wish
+app.post('/wish', (request, response) => {
+  // 
+  const { username } = req.body;
+  const { wish } = req.body;
+
+
+  userService.updateData().then(() => {
+    const userInfo = userService.getData(username);
+  })
+
+  if (!userInfo) {
+    response.sendFile(__dirname + '/views/invalid-user.html')
+  }
+})
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT || 3000, function () {

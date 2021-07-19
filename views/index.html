@@ -35,12 +35,19 @@
   <main>
     <!-- Edited some grammars & modified placeholders -->
     <p class="bold">Ho ho ho, what do you want for Christmas?</p>
-
-    Who are you?
-    <input name="username" placeholder="Your Username" />
-    <form method="post">
+    
+    <form id="form" class="form-control" action="/wish" method="post">
+      Who are you?
+      <input id="username" name="username" placeholder="Your Username" />
       What do you want for Christmas?
-      <textarea name="wish" rows="10" cols="45" maxlength="100" placeholder="Your Message to Santa"></textarea>
+      <textarea id="wish" name="wish" rows="10" cols="45" maxlength="100" placeholder="Your Message to Santa"></textarea>
+      <br/>
+      <!-- charcater count on the message -->
+      <div class="char-count">
+        <span id="cur-char">0</span>
+        <span id="max-char"> / 100 characters</span>
+        <small>Error</small>
+      </div>
       <br/>
       <button type="submit" id="submit-letter">Send</button>
     </form>

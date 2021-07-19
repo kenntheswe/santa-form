@@ -25,9 +25,9 @@ app.get('/', (request, response) => {
 
 // post wish
 app.post('/wish', (request, response) => {
-  // 
-  const { username } = req.body;
-  const { wish } = req.body;
+  console.log(request.params);
+  const { username } = request.body;
+  const { wish } = request.body;
 
 
   userService.updateData().then(() => {

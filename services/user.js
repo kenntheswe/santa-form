@@ -1,6 +1,7 @@
 // 
 const axios = require("axios");
 
+// store user id values & birthdate values
 let userIdMap = new Map();
 let userMap = new Map();
 
@@ -63,4 +64,4 @@ const getData = (username) => {
   };
 }
 
-export { updateData, getData};
+export { updateData, getData };

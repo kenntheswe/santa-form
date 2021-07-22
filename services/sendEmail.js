@@ -19,18 +19,22 @@ const pendingMail = [];
 const add = (username, address, wish) => {
 
   pendingMail.push.({
-    from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
+    from: "do_not_reply@northpole.com", // sender address
+    to: "santa@northpole.com", // receiver address
+    subject: "You have a new wish request", // Subject line
+    text: `Merry Christmas!
+          This email was sent by ${username}.
+          Address: ${address}
+          Wish: ${wish}
+          
+          Sent from Santa Form`, // plain text body
   });
 }
 
 const sendEmail = (mailOption) => {
   transporter.sendMail(mailOption, (error, data) => {
     if (error) {
-      console.log("Sorry, there was an error", error);
+      console.log("Sorry, there was an error...", error);
     }
   });
 }

@@ -1,4 +1,4 @@
-// 
+// require axios
 const axios = require("axios");
 
 // store user id values & birthdate values
@@ -64,4 +64,4 @@ const getData = (username) => {
   };
 }
 
-export { updateData, getData };
+module.exports = { updateData, getData };

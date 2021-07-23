@@ -6,6 +6,8 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 const bodyParser = require('body-parser');
+const user = require('./services/user');
+const sendEmail = require('./services/sendEmail');
 
 app.use(bodyParser());
 app.use(morgan());
@@ -30,14 +32,37 @@ app.post('/wish', (request, response) => {
   const { wish } = request.body;
 
 
-  userService.updateData().then(() => {
-    const userInfo = userService.getData(username);
+  user.updateData().then(() => {
+    const userInfo = user.getData(username);
   })
 
+  // invalid user
   if (!userInfo) {
     response.sendFile(__dirname + '/views/invalid-user.html')
   }
+
+  const dateCheck = userInfo.birthdate;
+  const today = Date.today;
+  const age = today.diff(dateCheck, "years");
+
+  // age validation
+  if (age > 10) {
+    response.sendFile(__dirname + '/views/invalid-user.html');
+    return;
+  }
+
+  // wish validation
+  if (!wish) {
+    response.sendFile(__dirname + '/views/invalid-user.html');
+    return;
+  }
+
+  sendEmail.add(userInfo.username, userInfo.address, wish);
+
+  response.sendFile(__dirname + '/views/invalid-user.html');
 })
+
+sendEmail.init();
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT || 3000, function () {

@@ -1,14 +1,15 @@
-const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv').config();
 
 // pending to send email
 const pendingMail = [];
+// prevent from having 15 seconds interval more than one time
+let timeout;
 
  // create reusable transporter object using the default SMTP transport
  let transporter = nodemailer.createTransport({
   host: "smtp.ethereal.email",
   port: 587,
-  secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL, // generated ethereal user
     pass: process.env.PASSWORD, // generated ethereal password
@@ -18,7 +19,7 @@ const pendingMail = [];
 // send mail with defined transport object
 const add = (username, address, wish) => {
 
-  pendingMail.push.({
+  pendingMail.push({
     from: "do_not_reply@northpole.com", // sender address
     to: "santa@northpole.com", // receiver address
     subject: "You have a new wish request", // Subject line
@@ -51,4 +52,4 @@ const init = () => {
   }
 }
 
-export { init, add }
+module.exports = { add, init, };

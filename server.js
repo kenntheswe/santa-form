@@ -5,12 +5,12 @@
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
-const bodyParser = require('body-parser');
+const moment = require('moment');
 const user = require('./services/user');
 const sendEmail = require('./services/sendEmail');
 
-app.use(bodyParser());
-app.use(morgan());
+app.use(express.json());
+app.use(morgan('combined'));
 
 // we've started you off with Express,
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
@@ -18,7 +18,7 @@ app.use(morgan());
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 // parse data
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded());
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (request, response) => {
@@ -27,22 +27,23 @@ app.get('/', (request, response) => {
 
 // post wish
 app.post('/wish', (request, response) => {
-  console.log(request.params);
   const { username } = request.body;
   const { wish } = request.body;
 
 
   user.updateData().then(() => {
+    // username validation
     const userInfo = user.getData(username);
   })
 
   // invalid user
   if (!userInfo) {
-    response.sendFile(__dirname + '/views/invalid-user.html')
+    response.sendFile(__dirname + '/views/invalid-user.html');
+    return;
   }
 
   const dateCheck = userInfo.birthdate;
-  const today = Date.today;
+  const today = moment();
   const age = today.diff(dateCheck, "years");
 
   // age validation
@@ -57,8 +58,9 @@ app.post('/wish', (request, response) => {
     return;
   }
 
+  // 
   sendEmail.add(userInfo.username, userInfo.address, wish);
-
+  //
   response.sendFile(__dirname + '/views/invalid-user.html');
 })
 

@@ -1,5 +1,6 @@
 // require axios
 const axios = require("axios");
+const moment = require("moment");
 
 // store user id values & birthdate values
 let userIdMap = new Map();
@@ -32,8 +33,7 @@ const updateData = () => {
         url: urlTwo,
         responseType: "json",
       });
-    })
-    .then((response) => {
+    }).then((response) => {
       const userProfile = response.data;
 
       // insert data to userMap
@@ -56,12 +56,12 @@ const getData = (username) => {
   }
 
   const userId = userIdMap.get(username);
-  const birthdate = userMap.get(userId).birthdate;
+  const birthdate = moment(userMap.get(userId).birthdate, "YYYY/DD/MM");
   const { address } = userMap.get(userId);
 
   return {
-    username, userId, birthday, address
+    username, userId, birthdate, address,
   };
 }
 
-module.exports = { updateData, getData };
+module.exports = { updateData, getData, };

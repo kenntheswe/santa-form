@@ -1,16 +1,15 @@
 const nodemailer = require('nodemailer');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 
 // pending to send email
 const pendingMail = [];
-
+// prevent from having 15 seconds interval more than one time
 let timeout;
 
  // create reusable transporter object using the default SMTP transport
  let transporter = nodemailer.createTransport({
   host: "smtp.ethereal.email",
   port: 587,
-  secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL, // generated ethereal user
     pass: process.env.PASSWORD, // generated ethereal password
@@ -53,4 +52,4 @@ const init = () => {
   }
 }
 
-module.exports = { add, init };
+module.exports = { add, init, };

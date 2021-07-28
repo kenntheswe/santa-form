@@ -34,35 +34,34 @@ app.post('/wish', (request, response) => {
   user.updateData().then(() => {
     // username validation
     const userInfo = user.getData(username);
-  })
+    // invalid user
+    if (!userInfo) {
+      response.sendFile(__dirname + '/views/invalid-user.html');
+      return;
+    }
 
-  // invalid user
-  if (!userInfo) {
+    const dateCheck = userInfo.birthdate;
+    const today = moment();
+    const age = today.diff(dateCheck, "years");
+  
+    // age validation
+    if (age > 10) {
+      response.sendFile(__dirname + '/views/invalid-user.html');
+      return;
+    }
+  
+    // wish validation
+    if (!wish) {
+      response.sendFile(__dirname + '/views/invalid-user.html');
+      return;
+    }
+  
+    // 
+    sendEmail.add(userInfo.username, userInfo.address, wish);
+    //
     response.sendFile(__dirname + '/views/invalid-user.html');
-    return;
-  }
-
-  const dateCheck = userInfo.birthdate;
-  const today = moment();
-  const age = today.diff(dateCheck, "years");
-
-  // age validation
-  if (age > 10) {
-    response.sendFile(__dirname + '/views/invalid-user.html');
-    return;
-  }
-
-  // wish validation
-  if (!wish) {
-    response.sendFile(__dirname + '/views/invalid-user.html');
-    return;
-  }
-
-  // 
-  sendEmail.add(userInfo.username, userInfo.address, wish);
-  //
-  response.sendFile(__dirname + '/views/invalid-user.html');
-})
+  });
+});
 
 sendEmail.init();
 

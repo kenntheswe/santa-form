@@ -10,9 +10,11 @@
 
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
-
-    <!-- import the webpage's client-side javascript file -->
-    <script src="/client.js" defer></script>
+    <script defer> 
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 5000);
+    </script>
   </head>
   <body>
     <main>

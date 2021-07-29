@@ -11,24 +11,24 @@ let timeout;
   host: "smtp.ethereal.email",
   port: 587,
   auth: {
-    user: process.env.EMAIL, // generated ethereal user
-    pass: process.env.PASSWORD, // generated ethereal password
+    user: process.env.EMAIL, // generated ethereal user from env
+    pass: process.env.PASSWORD, // generated ethereal password from env
   },
 });
 
 // send mail with defined transport object
-const add = (username, address, wish) => {
+const addInfo = (username, address, wish) => {
 
   pendingMail.push({
     from: "do_not_reply@northpole.com", // sender address
     to: "santa@northpole.com", // receiver address
-    subject: "You have a new wish request", // Subject line
+    subject: "You have a new wish request", // subject line
     text: `Merry Christmas!
           This email was sent by ${username}.
           Address: ${address}
           Wish: ${wish}
           
-          Sent from Santa Form`, // plain text body
+          Sent from Santa Form`, // text body
   });
 }
 
@@ -40,16 +40,18 @@ const sendEmail = (mailOption) => {
   });
 }
 
+// pending mail for every 15 seconds
 const sendPendingMail = () => {
   while (pendingMail.length > 0) {
     sendEmail(pendingMail.pop());
   }
 }
 
-const init = () => {
+// sending pending email for every 15 seconds
+const timeoutInit = () => {
   if (!timeout) {
     timeout = setInterval(sendPendingMail, 15000);
   }
 }
 
-module.exports = { add, init, };
+module.exports = { addInfo, timeoutInit, };

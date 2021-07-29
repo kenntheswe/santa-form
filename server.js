@@ -30,7 +30,7 @@ app.post('/wish', (request, response) => {
   const { username } = request.body;
   const { wish } = request.body;
 
-
+  // fetch json data using axios
   user.updateData().then(() => {
     // username validation
     const userInfo = user.getData(username);
@@ -56,14 +56,14 @@ app.post('/wish', (request, response) => {
       return;
     }
   
-    // 
-    sendEmail.add(userInfo.username, userInfo.address, wish);
-    //
+    // add user info to pending mail
+    sendEmail.addInfo(userInfo.username, userInfo.address, wish);
+    // send success email
     response.sendFile(__dirname + '/views/valid-user.html');
   });
 });
 
-sendEmail.init();
+sendEmail.timeoutInit();
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT || 3000, function () {

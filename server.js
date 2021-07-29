@@ -46,7 +46,7 @@ app.post('/wish', (request, response) => {
   
     // age validation
     if (age > 10) {
-      response.sendFile(__dirname + '/views/invalid-user.html');
+      response.sendFile(__dirname + '/views/invalid-age.html');
       return;
     }
   

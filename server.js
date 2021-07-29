@@ -52,7 +52,7 @@ app.post('/wish', (request, response) => {
   
     // wish validation
     if (!wish) {
-      response.sendFile(__dirname + '/views/invalid-user.html');
+      response.sendFile(__dirname + '/views/invalid-wish.html');
       return;
     }
   

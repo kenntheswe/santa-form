@@ -59,7 +59,7 @@ app.post('/wish', (request, response) => {
     // 
     sendEmail.add(userInfo.username, userInfo.address, wish);
     //
-    response.sendFile(__dirname + '/views/invalid-user.html');
+    response.sendFile(__dirname + '/views/valid-user.html');
   });
 });
 
